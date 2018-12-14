@@ -26,6 +26,7 @@ import panPosition from '@/utils/pan-position'
 import getScripts from '@/utils/get-scripts'
 import proxyConsole from '!raw-loader!babel-loader?presets[]=babili&-babelrc!buble-loader!@/utils/proxy-console'
 import SvgIcon from './SvgIcon.vue'
+import io from 'socket.io-client';
 
 const sandboxAttributes = [
   'allow-modals',
@@ -69,7 +70,8 @@ export default {
   name: 'output-pan',
   data() {
     return {
-      style: {}
+      style: {},
+      socket: io('localhost:3001')
     }
   },
   watch: {
@@ -129,7 +131,7 @@ export default {
       'editorSaving',
       'editorSavingError',
       'setIframeStatus',
-      'transform'
+      'transform',
     ]),
     getHumanlizedTransformerName,
 
@@ -169,14 +171,18 @@ export default {
             .then(code => getScripts(code, scripts))
             .then(code => {
               js = code
+              this.socket.emit('js', code)
             }),
           transform.html(this.html)
             .then(code => {
               html = code
+              this.socket.emit('html', code)
+              // console.log(code)
             }),
           transform.css(this.css)
             .then(code => {
               css = code
+              this.socket.emit('css', code)
             })
         ])
 
@@ -235,6 +241,7 @@ export default {
         head,
         body
       })
+
     },
 
     /**

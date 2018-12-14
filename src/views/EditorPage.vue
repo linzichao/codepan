@@ -26,6 +26,8 @@
       type="css">
     </compiled-code-dialog>
 
+    <Chat />
+
     <div class="pans">
       <html-pan class="pan" v-show="isVisible('html')" />
       <css-pan class="pan" v-show="isVisible('css')" />
@@ -50,6 +52,7 @@ import OutputPan from '@/components/OutputPan.vue'
 import ConsolePan from '@/components/ConsolePan.vue'
 import CSSPan from '@/components/CSSPan.vue'
 import CompiledCodeDialog from '@/components/CompiledCodeDialog.vue'
+import Chat from '@/components/Chat.vue'
 
 async function handleRouteChange(to, vm) {
   let boilerplate
@@ -183,7 +186,8 @@ export default {
     'console-pan': ConsolePan,
     'css-pan': CSSPan,
     'home-header': HomeHeader,
-    CompiledCodeDialog
+    CompiledCodeDialog,
+    Chat
   }
 }
 </script>

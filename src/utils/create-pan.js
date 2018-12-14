@@ -46,6 +46,10 @@ export default ({ name, editor, components } = {}) => {
         this.editor.setOption('mode', mode)
       },
       [`${name}.code`]() {
+        // this.editor.focus()
+        this.editor.setValue(this[name].code)
+        this.editor.setCursor({line: 1, ch: 5})
+
         if (this.autoRun) {
           this.debounceRunCode()
         }
@@ -59,6 +63,7 @@ export default ({ name, editor, components } = {}) => {
       this.editor.on('change', e => {
         this.updateCode({ code: e.getValue(), type: name })
         this.editorChanged()
+        this.editor.focus()
       })
       this.editor.on('focus', () => {
         if (this.activePan !== name && this.visiblePans.indexOf(name) > -1) {
@@ -66,7 +71,7 @@ export default ({ name, editor, components } = {}) => {
         }
       })
       Event.$on('refresh-editor', () => {
-        this.editor.setValue(this[name].code)
+        // this.editor.setValue(this[name].code)
         this.editor.refresh()
       })
       // Focus the editor
